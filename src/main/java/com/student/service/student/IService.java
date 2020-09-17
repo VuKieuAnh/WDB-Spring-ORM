@@ -9,5 +9,5 @@ public interface IService<T> {
 
     T save(T model);
 
-    void remove(Long id);
+    void remove(Integer id);
 }

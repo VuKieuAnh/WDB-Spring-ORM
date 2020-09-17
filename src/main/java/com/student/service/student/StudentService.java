@@ -82,7 +82,10 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public void remove(Long id) {
-
+    public void remove(Integer id) {
+        String queryStr = "DELETE c FROM Student AS c WHERE c.id = :id";
+        TypedQuery<Student> query = entityManager.createQuery(queryStr, Student.class);
+        query.setParameter("id", id);
+        query.getSingleResult();
     }
 }

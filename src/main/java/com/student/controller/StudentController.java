@@ -58,7 +58,11 @@ public class StudentController {
     }
 
 
-
+    @GetMapping("/delete/{id}")
+    public ModelAndView deleteStudent(@PathVariable Integer id){
+        studentService.remove(id);
+        return new ModelAndView("redirect:" + "/students");
+    }
 
 
 }
