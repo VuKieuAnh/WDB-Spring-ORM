@@ -9,6 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -73,18 +74,28 @@ public class AppConfiguration extends WebMvcConfigurerAdapter implements Applica
         return entityManagerFactory.createEntityManager();
     }
 //
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[]{"com.student.model"});
-
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(additionalProperties());
-        return em;
-    }
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+//        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+//        em.setDataSource(dataSource());
+//        em.setPackagesToScan(new String[]{"com.student.model"});
 //
+//        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+//        em.setJpaVendorAdapter(vendorAdapter);
+//        em.setJpaProperties(additionalProperties());
+//        return em;
+//    }
+//
+@Bean
+public LocalSessionFactoryBean sessionFactory() {
+    LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+    sessionFactory.setDataSource(dataSource());
+    sessionFactory.setPackagesToScan("com.student.model");
+    sessionFactory.setHibernateProperties(additionalProperties());
+
+    return sessionFactory;
+}
+
     @Bean
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -95,12 +106,12 @@ public class AppConfiguration extends WebMvcConfigurerAdapter implements Applica
         return dataSource;
     }
 //
-    @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(emf);
-        return transactionManager;
-    }
+//    @Bean
+//    public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
+//        JpaTransactionManager transactionManager = new JpaTransactionManager();
+//        transactionManager.setEntityManagerFactory(emf);
+//        return transactionManager;
+//    }
 //
     Properties additionalProperties() {
         Properties properties = new Properties();

@@ -30,4 +30,35 @@ public class StudentController {
         modelAndView.addObject("student", student);
         return modelAndView;
     }
+
+    @GetMapping("/create")
+    public ModelAndView createForm(){
+        ModelAndView modelAndView = new ModelAndView("create");
+        modelAndView.addObject("student", new Student());
+        return modelAndView;
+    }
+
+    @PostMapping("/create")
+    public ModelAndView createStudent(@ModelAttribute Student student){
+        studentService.save(student);
+        return new ModelAndView("redirect:" + "/students");
+    }
+
+    @GetMapping("/edit/{id}")
+    public ModelAndView editForm(@PathVariable Integer id){
+        ModelAndView modelAndView = new ModelAndView("edit");
+        modelAndView.addObject("student", studentService.findById(id));
+        return modelAndView;
+    }
+
+    @PostMapping("/edit/{id}")
+    public ModelAndView editStudent(@ModelAttribute Student student){
+        studentService.update(student);
+        return new ModelAndView("redirect:" + "/students");
+    }
+
+
+
+
+
 }

@@ -1,4 +1,6 @@
 package com.student.service.student;
 
-public interface IStudentService extends IService {
+import com.student.model.Student;
+
+public interface IStudentService extends IService<Student> {
 }
